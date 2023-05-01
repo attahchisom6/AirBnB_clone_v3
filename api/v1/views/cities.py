@@ -1,25 +1,23 @@
 #!/usr/bin/python3
 """
-This module will be to manipupate city objects using RESTful Api
+This module will help us control and manage state objects using Restful api
 """
-from flask import abort, make_response
-from models.state import State
+from flask import request, abort, jsonify
 from models.city import City
-from models import Storage
+from models.state import State
 from api.v1.views import app_views
+from models import storage
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
                  strict_slashes=False)
-def list_cities_in_state(state_id):
+def allCities_inState(state_id):
     """
-    list all cities available in a state
+    returns a list of all cities in a city
     """
     c_list = []
-    state = get(State, state_id)
-    if state is None:
-        abort(404)
-    for city in state.cities:
+    state = storage.get(State, state_id)
+    for city in state.cities.values():
         c_list.append(city)
         c_list = c_list.to_dict()
-    return jasonify(c_list)
+    return jsonify(c_list)
