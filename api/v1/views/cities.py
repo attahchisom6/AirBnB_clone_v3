@@ -17,7 +17,7 @@ def allCities_inState(state_id):
     """
     c_list = []
     state = storage.get(State, state_id)
-    for city in state.cities.values():
+    for city in state.cities:
         c_list.append(city)
         c_list = c_list.to_dict()
     return jsonify(c_list)
